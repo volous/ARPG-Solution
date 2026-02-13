@@ -2,10 +2,12 @@
   import { ref, onMounted, onUnmounted } from 'vue';
   import { useWorldStore } from "../stores/world.js";
   import { usePlayerStore } from "../stores/player.js";
+  import { useGameManager } from "../stores/gameManager.js";
 
   const cavnasRef = ref(null);
   const playerStore = usePlayerStore();
   const worldStore = useWorldStore();
+  const gameManager = useGameManager();
   const keys = {};
   const handleKeyDown = (e) => {keys[e.key.toLowerCase()] = true};
   const handleKeyUp = (e) => {keys[e.key.toLowerCase()] = false};
@@ -54,6 +56,8 @@
         playerStore.position.x = newX;
       }
     }
+
+    checkTriggers();
   };
 
   const isWalkable = (targetX, targetY) => {
@@ -63,6 +67,14 @@
       return false;
     }
     return worldStore.map[tileY][tileX] === 0;
+  }
+
+  const checkTriggers = () => {
+    const tileX = Math.floor(playerStore.position.x / worldStore.tileSize);
+    const tileY = Math.floor(playerStore.position.y / worldStore.tileSize);
+    if(tileX === 3 && tileY === 3){
+      gameManager.startCombat();
+    }
   }
 
   const draw = (ctx) => {
