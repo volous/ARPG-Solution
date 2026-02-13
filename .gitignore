@@ -1,0 +1,12 @@
+﻿# .NET
+bin/
+obj/
+.idea/
+*.user
+*.suo
+*.userprefs
+
+# Node
+node_modules/
+dist/
+.DS_Store
