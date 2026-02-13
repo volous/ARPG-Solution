@@ -63,7 +63,8 @@
   const isWalkable = (targetX, targetY) => {
     const tileX = Math.floor((targetX) / worldStore.tileSize);
     const tileY = Math.floor((targetY) / worldStore.tileSize);
-    if(tileY < 0 || tileY >= worldStore.map.length || tileX < 0 || tileX >= worldStore.map[0].length){
+    if(tileX < 0 || tileX >= worldStore.map[0].length ||
+      tileY < 0 || tileY >= worldStore.map.length){
       return false;
     }
     return worldStore.map[tileY][tileX] === 0;
@@ -72,7 +73,7 @@
   const checkTriggers = () => {
     const tileX = Math.floor(playerStore.position.x / worldStore.tileSize);
     const tileY = Math.floor(playerStore.position.y / worldStore.tileSize);
-    if(tileX === 3 && tileY === 3){
+    if(tileX === 5 && tileY === 3){
       gameManager.startCombat();
     }
   }
