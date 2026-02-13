@@ -12,7 +12,10 @@ export const useGameManager = defineStore("gameManager", () => {
 
   function endCombat(){
     currentScene.value = 'world';
-    playerStore.position.y += 64;
+    playerStore.position.x = playerStore.lastSafePosition.x;
+    playerStore.position.y = playerStore.lastSafePosition.y;
+
+    playerStore.clearInput();
   }
 
   return { currentScene, startCombat, endCombat };
