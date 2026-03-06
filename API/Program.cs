@@ -1,6 +1,11 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using API.Models;
+using API.Services;
+
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+
+builder.Services.AddScoped<IITemFactory, ItemFactory>();
 
 builder.Services.AddCors(options =>
 {

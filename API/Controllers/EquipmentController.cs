@@ -7,22 +7,22 @@ namespace API.Controllers;
 [Route("api/[controller]")]
 public class EquipmentController : ControllerBase
 {
+    private readonly IITemFactory _itemFactory;
+
+    public EquipmentController(IITemFactory itemFactory)
+    {
+        _itemFactory = itemFactory;
+    }
+    
     [HttpGet("my-gear")]
     public IActionResult GetEquipment()
     {
-        Equipment gear = new Equipment
+        var gear = new Equipment
         {
-            Weapon = "Rusty Dagger",
-            OffHand = "Wooden Shield",
-            Helmet = "None",
-            BodyArmor = "Cloth Tunic",
-            LegArmor = "Old Rags",
-            Boots = "Leather Boots",
-            Gloves = "None",
-            Ring1 = "Copper Band",
-            Ring2 = "None",
-            Amulet = "Lucky Tooth",
-            Belt = "Rope Belt"
+            Id = 1,
+            Weapon = _itemFactory.CreateItem("iron sword"),
+            BodyArmor = _itemFactory.CreateItem("leather armor"),
+            Ring1 = _itemFactory.CreateItem("copper band"),
         };
 
         return Ok(gear);

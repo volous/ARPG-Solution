@@ -1,5 +1,5 @@
 ﻿import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import {computed, ref} from 'vue';
 
 export const usePlayerStore = defineStore('player', () =>{
   const position = ref({x: 320, y: 320});
@@ -8,6 +8,15 @@ export const usePlayerStore = defineStore('player', () =>{
   const activeKeys = ref({});
 
   const equipment = ref({});
+
+  const totalDamage = computed(() => {
+    return Object.values(equipment.value).reduce((sum, item) => {
+      return sum + (item && typeof item === 'object' ? (item.damage || 0) : 0);
+    }, 0);
+  });
+  const totalDefense = computed(() => {
+    return Object.values(equipment.value).reduce((sum, item) => sum + (item?.defense || 0), 0);
+  });
 
   const fetchEquipment = async () => {
     try {
@@ -36,6 +45,8 @@ export const usePlayerStore = defineStore('player', () =>{
     speed,
     activeKeys,
     equipment,
+    totalDamage,
+    totalDefense,
     inventory,
     fetchEquipment,
     clearInput,

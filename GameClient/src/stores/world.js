@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 
 export const useWorldStore = defineStore('world', () => {
+  const tileSize = 64;
   const map = ref([
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -12,6 +13,19 @@ export const useWorldStore = defineStore('world', () => {
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  ]);
+
+  const droppedItems = ref([]);
+
+  const enemies = ref([
+    {
+      id: 'slime_01',
+      name: 'Slime',
+      x: 320, y: 192,
+      hp: 20, maxHp: 20,
+      isAlive: true,
+      loot: { name: 'Slime Goo', id: 'item_goo', damage: 0, defense: 1 }
+    }
   ]);
 
   const triggers = ref([
@@ -28,5 +42,14 @@ export const useWorldStore = defineStore('world', () => {
     }
   ]);
 
-  return { map, triggers, tileSize: 64 }
+  function spawnLoot(item, x, y){
+    droppedItems.value.push({
+      ...item,
+      x,
+      y,
+      instanceId: Math.random().toString(36).substring(2, 9)
+    });
+  }
+
+  return { map, tileSize, enemies, droppedItems, spawnLoot }
 });
